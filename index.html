@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rupanshu — Freshie Growth Marketer. But Not So Fresh.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --yellow: #F5C400;
+    --yellow-dim: #c49d00;
+    --black: #080808;
+    --surface: #111111;
+    --surface2: #161616;
+    --border: #222222;
+    --text: #ffffff;
+    --muted: #888888;
+    --dim: #444444;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    /* 1.6 is a good balance for readability while still feeling tight and modern */
+    line-height: 1.6;
+    overflow-x: hidden;
+    
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--yellow);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(245,196,0,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.12s ease;
+    transform: translate(-50%, -50%);
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 500;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 8px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: none;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* SECTIONS */
+  section { position: relative; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    padding-top: 60px;
+  }
+  .hero-left {
+    padding: 80px 48px 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--yellow);
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 120px);
+    line-height: 0.9;
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+  .hero-bio {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.85;
+    max-width: 440px;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+  .hero-bio em { color: var(--text); font-style: normal; font-weight: 400; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 16px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--dim);
+    padding: 16px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: var(--surface);
+  }
+  .hero-avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--black);
+    letter-spacing: 2px;
+  }
+  .hero-img-note {
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  /* Yellow ticker strip */
+  .ticker {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--yellow);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex;
+    gap: 0;
+    animation: ticker 20s linear infinite;
+  }
+  .ticker-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: var(--black);
+    padding: 0 32px;
+  }
+  .ticker-dot {
+    color: rgba(0,0,0,0.3);
+    padding: 0 8px;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ABOUT */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    min-height: 560px;
+  }
+  .about-left {
+    padding: 80px 48px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .section-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 72px);
+    line-height: 0.95;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+  .section-heading .accent { color: var(--yellow); }
+  .about-right {
+    padding: 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .about-bio {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+  .about-bio strong { color: var(--text); font-weight: 400; }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    padding: 7px 16px;
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  /* SKILLS */
+  #skills {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-card {
+    background: var(--black);
+    padding: 32px 28px;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--yellow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .skill-card:hover { background: var(--surface); }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .skill-name {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .skill-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* STATS */
+  #stats {
+    border-bottom: 1px solid var(--border);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-cell {
+    padding: 64px 48px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell:hover { background: var(--surface); }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  /* WORK */
+  #work {
+    padding: 80px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .work-card {
+    background: var(--black);
+    cursor: none;
+    transition: background 0.2s;
+    overflow: hidden;
+  }
+  .work-card:hover { background: var(--surface); }
+  .work-card-img {
+    height: 180px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border);
+    font-size: 40px;
+    transition: background 0.2s;
+  }
+  .work-card:hover .work-card-img { background: #1d1d1d; }
+  .work-card-body { padding: 20px 24px; }
+  .work-card-type {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .work-card-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .work-note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .work-note-text { font-size: 13px; color: var(--muted); font-style: italic; font-weight: 300; }
+  .work-note-link { font-size: 12px; color: var(--yellow); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+
+  /* CONTACT */
+  #contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 600px;
+  }
+  .contact-left {
+    padding: 80px 48px;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .contact-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 7vw, 80px);
+    line-height: 0.95;
+    color: var(--text);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .contact-heading .accent { color: var(--yellow); }
+  .contact-sub {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 48px;
+    font-weight: 300;
+    max-width: 380px;
+  }
+  .contact-info { margin-bottom: 16px; }
+  .contact-info-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .contact-info-value { font-size: 15px; color: var(--text); }
+  .social-row { display: flex; gap: 10px; margin-top: 36px; }
+  .social-btn {
+    width: 44px; height: 44px;
+    border: 1px solid var(--dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 18px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+  .contact-right {
+    padding: 80px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-weight: 300;
+  }
+  .form-input:focus { border-color: var(--yellow); }
+  .form-input::placeholder { color: var(--dim); }
+  textarea.form-input { resize: vertical; min-height: 140px; }
+  .form-submit {
+    width: 100%;
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    padding: 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: none;
+    margin-top: 8px;
+    transition: opacity 0.2s;
+  }
+  .form-submit:hover { opacity: 0.85; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--black);
+  }
+  .footer-left { font-size: 12px; color: var(--dim); letter-spacing: 0.5px; }
+  .footer-right { font-size: 12px; color: var(--dim); letter-spacing: 0.5px; font-style: italic; }
+
+  /* ANIMATIONS */
+ .fade-up {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--yellow); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    #hero, #about, #contact { grid-template-columns: 1fr; }
+    .hero-right { min-height: 300px; }
+    .hero-right .ticker { display: none; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero-left, .about-left, .about-right, .contact-left, .contact-right, #skills, #work { padding: 48px 24px; }
+    .stat-cell { padding: 40px 24px; }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .work-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .hero-name { font-size: 72px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">RUPANSHU</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left fade-up">
+    <div class="hero-label">Portfolio / 2026</div>
+    <h1 class="hero-name">Rupanshu</h1>
+    <div class="hero-title">Freshie Growth Marketer. But Not So Fresh.</div>
+    <p class="hero-bio">Your brand deserves content that actually <em>does something</em>. I handle the strategy, the ads, the reels — and I treat your growth like it's my own. Still learning, but <em>dangerously fast</em> at it.</p>
+    <div class="btn-row">
+      <a href="#work" class="btn-primary">See My Work →</a>
+      <a href="#contact" class="btn-secondary">Let's Talk</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-placeholder">
+      <div class="hero-avatar">R</div>
+      <div class="hero-img-note">← Replace with your photo</div>
+    </div>
+    <div class="ticker">
+      <div class="ticker-inner" id="ticker">
+        <span class="ticker-item">Growth Marketer</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Content Strategy</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Meta Ads</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Reels Scripting</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Brand Building</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">AI Workflows</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Growth Marketer</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Content Strategy</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Meta Ads</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Reels Scripting</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">Brand Building</span><span class="ticker-dot">·</span>
+        <span class="ticker-item">AI Workflows</span><span class="ticker-dot">·</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left fade-up">
+    <div class="section-label">/ 02 About</div>
+    <h2 class="section-heading">Still in<br>the Game.<br>Already in<br>the <span class="accent">Work.</span></h2>
+  </div>
+  <div class="about-right fade-up">
+    <p class="about-bio">I got into marketing by actually doing it — not by waiting for the right course or the right time. At <strong>19</strong>, I already run content and campaigns for a tech startup, manage freelance clients, and somehow still find time to obsess over why some posts blow up and others don't. I work fast, think in systems, and genuinely care about what I put out. <strong>Not bad for someone who's barely started.</strong></p>
+    <div class="tags">
+      <span class="tag">Meta Ads</span>
+      <span class="tag">Reels Scripting</span>
+      <span class="tag">Content Systems</span>
+      <span class="tag">Brand Strategy</span>
+      <span class="tag">Fast Executor</span>
+      <span class="tag">Startup-Minded</span>
+      <span class="tag">AI-Powered</span>
+      <span class="tag">Esports & Gaming</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-header fade-up">
+    <div>
+      <div class="section-label">/ 03 Skills</div>
+      <h2 class="section-heading" style="font-size: clamp(36px,5vw,56px);">What I <span class="accent">Bring</span></h2>
+    </div>
+    <p style="font-size: 13px; color: var(--muted); max-width: 280px; text-align: right; line-height: 1.7; font-weight: 300;">Creative instinct + real execution + genuine enthusiasm. Here's what I can help you with.</p>
+  </div>
+  <div class="skills-grid fade-up">
+    <div class="skill-card">
+      <span class="skill-icon">📱</span>
+      <div class="skill-name">Social Media Management</div>
+      <div class="skill-desc">Instagram, LinkedIn, YouTube — consistent brand voice across all three, simultaneously.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">💡</span>
+      <div class="skill-name">Content Strategy</div>
+      <div class="skill-desc">Content pillars, 30-day calendars, campaign ideas aligned with real business goals.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">📊</span>
+      <div class="skill-name">Meta Ads & Paid Campaigns</div>
+      <div class="skill-desc">Campaign setup, ad copy, creative testing — real campaigns, real budgets, real markets.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🤖</span>
+      <div class="skill-name">HeyGen & AI Tools</div>
+      <div class="skill-desc">ChatGPT, Grok, Gemini, HeyGen — cutting production time ~40% without cutting quality.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">✍️</span>
+      <div class="skill-name">Reels Scripting & Ad Copy</div>
+      <div class="skill-desc">Hooks, pacing, CTAs — writing that makes people stop, read, and actually take action.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🎬</span>
+      <div class="skill-name">Video Editing</div>
+      <div class="skill-desc">Esports trailers, hype videos, short-form content — pacing and music sync are my thing.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🎨</span>
+      <div class="skill-name">Canva Design</div>
+      <div class="skill-desc">Carousels, story templates, thumbnails — clean, on-brand, built to stop the scroll.</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🎯</span>
+      <div class="skill-name">Brand Positioning</div>
+      <div class="skill-desc">Finding the angle that makes a brand actually memorable in a noisy, crowded feed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid fade-up">
+    <div class="stat-cell">
+      <div class="stat-number">50+</div>
+      <div class="stat-label">Pieces of Content<br>Shipped</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Platforms Managed<br>Simultaneously</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">40%</div>
+      <div class="stat-label">Faster Content Production<br>via AI Workflows</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">2+</div>
+      <div class="stat-label">Years in<br>the Game</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header fade-up">
+    <div>
+      <div class="section-label">/ 05 Selected Work</div>
+      <h2 class="section-heading" style="font-size: clamp(36px,5vw,56px);">Early Days.<br><span class="accent">Real Work.</span></h2>
+    </div>
+    <p style="font-size: 13px; color: var(--muted); max-width: 260px; text-align: right; line-height: 1.7; font-weight: 300;">Receipts on request. Samples available on DM.</p>
+  </div>
+  <div class="work-grid fade-up">
+    <div class="work-card">
+      <div class="work-card-img">📲</div>
+      <div class="work-card-body">
+        <div class="work-card-type">Instagram Carousel</div>
+        <div class="work-card-title">Joistic — Content System Build</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-img">🎯</div>
+      <div class="work-card-body">
+        <div class="work-card-type">Meta Ads</div>
+        <div class="work-card-title">Canada Market — Ad Creative Testing</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-img">🎙️</div>
+      <div class="work-card-body">
+        <div class="work-card-type">HeyGen Script</div>
+        <div class="work-card-title">Voiceover — Vibe Coding Reel</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-img">🏆</div>
+      <div class="work-card-body">
+        <div class="work-card-type">Esports Event</div>
+        <div class="work-card-title">Tournament Poster — 32 Teams, 250+ Players</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-img">⭐</div>
+      <div class="work-card-body">
+        <div class="work-card-type">Brand Content</div>
+        <div class="work-card-title">GetRev — SMB Instagram Strategy</div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-card-img">🎞️</div>
+      <div class="work-card-body">
+        <div class="work-card-type">Video Edit</div>
+        <div class="work-card-title">Esports Hype Trailer — Legenyx Media</div>
+      </div>
+    </div>
+  </div>
+  <div class="work-note fade-up">
+    <span class="work-note-text">Work samples, decks, and ad creatives available on request — DMs open, ego is not.</span>
+    <a href="#contact" class="work-note-link">Request Samples →</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left fade-up">
+    <div class="section-label">/ 06 Contact</div>
+    <h2 class="contact-heading">Let's Create<br><span class="accent">Something.</span></h2>
+    <p class="contact-sub">Open to part-time roles, freelance projects, and creative collabs. I respond fast — occupational hazard.</p>
+    <div class="contact-info">
+      <div class="contact-info-label">Email</div>
+      <div class="contact-info-value">rupanshu.works@gmail.com</div>
+    </div>
+    <div class="contact-info" style="margin-top: 16px;">
+      <div class="contact-info-label">Availability</div>
+      <div class="contact-info-value">Part-time & open to freelance collabs</div>
+    </div>
+    <div class="social-row">
+      <a href="https://www.linkedin.com/in/rupanshu-365057306" target="_blank" class="social-btn" title="LinkedIn">in</a>
+      <a href="#" class="social-btn" title="Instagram">ig</a>
+      <a href="#" class="social-btn" title="Twitter/X">𝕏</a>
+    </div>
+  </div>
+  <div class="contact-right fade-up">
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input type="text" class="form-input" placeholder="What do I call you?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Email</label>
+      <input type="email" class="form-input" placeholder="Where do I reply?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Message</label>
+      <textarea class="form-input" placeholder="Tell me about your project, brand, or idea..."></textarea>
+    </div>
+    <button class="form-submit">Send It →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">© 2026 Rupanshu. All rights reserved.</div>
+  <div class="footer-right">Built with intent. Not templates.</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+  document.querySelectorAll('a, button, .skill-card, .work-card, .tag').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)'; ring.style.borderColor = 'rgba(245,196,0,0.8)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.borderColor = 'rgba(245,196,0,0.4)'; });
+  });
+
+  // Fade up on scroll
+  const fadeEls = document.querySelectorAll('.fade-up');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? '#F5C400' : '';
+    });
+  });
+</script>
+</body>
+</html>
