@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problem statement — Women's Day sprint | Rupanshu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --yellow: #F5C400;
+      --black: #080808;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: #222222;
+      --text: #ffffff;
+      --muted: #888888;
+      --dim: #444444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.35;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 500;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--yellow);
+      letter-spacing: 2px;
+      text-decoration: none;
+      margin-top: 6px;
+    }
+
+    .nav-back {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-back:hover { color: var(--yellow); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-pill {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-pill:hover { color: var(--yellow); }
+
+    .cs-hero {
+      padding: 140px 0 80px 0;
+      border-bottom: 1px solid var(--border);
+      max-width: 860px;
+      margin: 0 auto;
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+
+    .cs-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cs-label::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--yellow);
+    }
+
+    .cs-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    .cs-title .accent { color: var(--yellow); }
+
+    .cs-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .cs-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cs-meta-key {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    .cs-meta-val {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .cs-results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+      margin-bottom: 80px;
+    }
+
+    .cs-result-cell {
+      padding: 40px 32px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .cs-result-cell:last-child { border-right: none; }
+    .cs-result-cell:hover { background: var(--surface); }
+
+    .cs-result-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 6vw, 64px);
+      color: var(--yellow);
+      line-height: 1;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .cs-result-note {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .cs-body {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px 56px 48px;
+    }
+
+    .cs-section {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+
+    .cs-section:last-of-type { border-bottom: none; }
+
+    .cs-section-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: var(--yellow);
+      letter-spacing: 1px;
+      padding-top: 4px;
+    }
+
+    .cs-section-content p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.9;
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .cs-section-content p:last-child { margin-bottom: 0; }
+
+    .cs-section-content strong {
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .cs-quote {
+      background: var(--surface2);
+      border-left: 3px solid var(--yellow);
+      padding: 28px 32px;
+      margin: 32px 0;
+    }
+
+    .cs-quote p {
+      font-size: 18px;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 300;
+      font-style: italic;
+    }
+
+    .cs-cta-bar {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px 56px 48px;
+      text-align: center;
+    }
+
+    .cs-cta-bar a {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 16px 32px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .cs-cta-bar a:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+
+    .cs-honest-note-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px 48px 48px;
+    }
+
+    .cs-honest-note {
+      background: rgba(245, 196, 0, 0.1);
+      border: 1px solid rgba(245, 196, 0, 0.45);
+      border-left: 4px solid var(--yellow);
+      padding: 22px 28px;
+    }
+
+    .cs-honest-note p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.65;
+      text-align: center;
+    }
+
+    .cs-footer {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 48px 80px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 48px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .cs-footer--links-only {
+      justify-content: flex-end;
+    }
+
+    .cs-footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .cs-footer-link {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245, 196, 0, 0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .cs-footer-link:hover { border-color: var(--yellow); }
+
+    @media (max-width: 700px) {
+      nav { padding: 0 24px; }
+      .cs-hero, .cs-body, .cs-cta-bar, .cs-honest-note-wrap, .cs-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .nav-right { gap: 16px; flex-wrap: wrap; justify-content: flex-end; }
+      .cs-results { grid-template-columns: 1fr; }
+      .cs-result-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .cs-result-cell:last-child { border-bottom: none; }
+      .cs-section { grid-template-columns: 1fr; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">RUPANSHU PORTFOLIO</a>
+    <div class="nav-right">
+      <a href="case-study-womens-day.html#brief" class="nav-pill">Full case study →</a>
+      <a href="index.html#work" class="nav-back">← Back to Work</a>
+    </div>
+  </nav>
+
+  <div class="cs-hero">
+    <div class="cs-label">Case study · Problem statement</div>
+    <h1 class="cs-title">No Brief.<br><span class="accent">No Buffer.</span><br>Just the window.</h1>
+    <div class="cs-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-key">Client</span>
+        <span class="cs-meta-val">Joistic Technologies</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-key">Moment</span>
+        <span class="cs-meta-val">Women's Day — Instagram</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-key">Starting point</span>
+        <span class="cs-meta-val">Nothing scheduled · two days out</span>
+      </div>
+    </div>
+
+    <div class="cs-results">
+      <div class="cs-result-cell">
+        <div class="cs-result-num">0</div>
+        <div class="cs-result-note">Approved concepts in the calendar</div>
+      </div>
+      <div class="cs-result-cell">
+        <div class="cs-result-num">~48h</div>
+        <div class="cs-result-note">Until the moment peaks</div>
+      </div>
+      <div class="cs-result-cell">
+        <div class="cs-result-num">1</div>
+        <div class="cs-result-note">Shot to publish something real</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cs-body">
+
+    <div class="cs-section">
+      <div class="cs-section-label">Situation</div>
+      <div class="cs-section-content">
+        <p>Women's Day was approaching and the feed had <strong>no</strong> planned hero piece — not even a rough direction. For a brand that lives on credibility, showing up with nothing (or with something obviously rushed and generic) was worse than staying quiet.</p>
+        <p>The problem wasn't "make a reel." It was <strong>make a reel that still feels worthy of the day</strong> when you're starting from zero narrative, zero footage, and almost no runway.</p>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-label">Real constraint</div>
+      <div class="cs-section-content">
+        <p>Moment marketing dies when you're late. The algorithm and the culture move on in hours. So the constraint was time <em>and</em> truth: the story had to be real enough to clear internal and subject approval fast, without a long polish cycle.</p>
+        <div class="cs-quote">
+          <p>"If we wait for perfect conditions, we miss the day entirely. The problem was the calendar — not the ambition."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-section">
+      <div class="cs-section-label">What had to be solved first</div>
+      <div class="cs-section-content">
+        <p>Before hooks, pacing, or captions, the problem was <strong>selection</strong>: whose story is strong enough to carry the moment without feeling like brand theatre? Then <strong>risk</strong>: can we get that person to yes quickly? Then <strong>execution</strong>: can edit and sign-off land while the topic still matters?</p>
+        <p>Creative only works here if those three locks open in order. Skip one and you're either late or dishonest.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cs-cta-bar">
+    <a href="case-study-womens-day.html#brief">How it shipped — brief, process &amp; reel →</a>
+  </div>
+
+  <div class="cs-honest-note-wrap">
+    <div class="cs-honest-note">
+      <p>It may not be polished like a big production, but it reflects honest effort, adaptability, and a genuine passion for the craft.</p>
+    </div>
+  </div>
+
+  <div class="cs-footer cs-footer--links-only">
+    <div class="cs-footer-links">
+      <a href="index.html#work" class="cs-footer-link">← All Work</a>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -144,6 +144,18 @@
       color: var(--yellow);
     }
 
+    .nav-links a.nav-case-study {
+      color: var(--black);
+      background: var(--yellow);
+      padding: 8px 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a.nav-case-study:hover {
+      color: var(--black);
+      opacity: 0.88;
+    }
+
     .nav-cta {
       background: var(--yellow);
       color: var(--black);
@@ -936,6 +948,54 @@
       text-decoration: none;
     }
 
+    .work-card-case-study {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      z-index: 25;
+      pointer-events: auto;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      text-decoration: none;
+      text-align: center;
+      padding: 10px 12px;
+      background: rgba(8, 8, 8, 0.82);
+      border: 1px solid rgba(245, 196, 0, 0.35);
+      border-radius: 8px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .work-card-case-study:hover {
+      background: var(--yellow);
+      color: var(--black);
+      border-color: var(--yellow);
+    }
+
+    .showcase-case-cta {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+
+    .showcase-case-cta a {
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245, 196, 0, 0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .showcase-case-cta a:hover {
+      border-color: var(--yellow);
+    }
+
     /* CONTACT */
     #contact {
       display: grid;
@@ -1453,6 +1513,7 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#stats">Stats</a></li>
       <li><a href="#work">Work</a></li>
+      <li><a href="case-study-womens-day.html#brief" class="nav-case-study" title="Women's Day — moment marketing case study">Moment marketing case study</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Let's Connect </a>
@@ -1649,6 +1710,7 @@
           <div class="work-card-type">Campaign</div>
           <div class="work-card-title">Moment Marketing</div>
         </div>
+        <a href="case-study-womens-day.html" class="work-card-case-study" onclick="event.stopPropagation()">Women's Day — full case study →</a>
       </div>
       <div class="work-card" onclick="openShowcase('promo')">
         <div class="work-card-img live-thumbnail-3">
@@ -1811,6 +1873,9 @@
           <div class="showcase-gallery" style="justify-content: center;">
             <video src="assets/moment/womens_day.mp4" controls muted autoplay loop playsinline style="height: clamp(300px, 60vh, 500px); width: auto; object-fit: contain; background: var(--black); border: 1px solid var(--border);"></video>
           </div>
+        </div>
+        <div class="showcase-case-cta">
+          <a href="case-study-womens-day.html">Full write-up — Women's Day case study →</a>
         </div>
       `
       },
